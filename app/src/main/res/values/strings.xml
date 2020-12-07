@@ -13,5 +13,10 @@
     <string name="code">Ingrese su codigo</string>
     <string name="password_repeat">Repita su contraseña</string>
 
+    <string name="error_required_message">Este campo es obligatorio</string>
+    <string name="error_ced">La cedula no es valida.</string>
+    <string name="error_password">la longitud de la contraseña debe ser mínimo de 8 caracteres y debe incluir por lo menos 1 número, y un carácter especial</string>
+    <string name="error_confirm_password">Las constraseñas no son iguales</string>
+
 
 </resources>
