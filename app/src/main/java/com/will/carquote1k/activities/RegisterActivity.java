@@ -106,12 +106,12 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         this.submit = findViewById(R.id.btnRegisterRegister);
 
         // For test
-        this.name.setText("Will");
-        this.ced.setText("1721181210");
-        this.code.setText("123456");
-        this.username.setText("will");
-        this.password.setText("will123.");
-        this.password2.setText("will123.");
+//        this.name.setText("Will");
+//        this.ced.setText("1721181210");
+//        this.code.setText("123456");
+//        this.username.setText("will");
+//        this.password.setText("will123.");
+//        this.password2.setText("will123.");
     }
 
     @Override

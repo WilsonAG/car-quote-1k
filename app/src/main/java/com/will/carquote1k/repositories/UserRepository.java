@@ -45,6 +45,17 @@ public class UserRepository {
         }
     }
 
+    public boolean isAuth(String username, String password) {
+        for (User u :
+                this.users) {
+//            System.out.println(u);
+            if (username.equals(u.getUsername()) && password.equals(u.getPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void addNew(User u) throws IOException {
         this.users.add(u);
@@ -66,7 +77,6 @@ public class UserRepository {
                 return true;
             }
         }
-
         return false;
     }
 
