@@ -18,7 +18,10 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.will.carquote1k.R;
+import com.will.carquote1k.models.User;
+import com.will.carquote1k.repositories.UserRepository;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.will.carquote1k.R.string.error_ced;
@@ -51,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
     private Validator registerValidator;
     private Button submit;
 
+    private UserRepository userRepo;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -69,8 +74,22 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        this.submit.setOnClickListener(this::onClickSubmit);
+
         this.registerValidator = new Validator(this);
         registerValidator.setValidationListener(this);
+
+        String[] files = fileList();
+        String path = this.getFilesDir().getPath().toString();
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                this.userRepo = new UserRepository(path, files);
+            }
+        } catch (IOException e) {
+            Toast.makeText(this, "Error al leer archivo", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     private void onClickSubmit(View v) {
@@ -85,7 +104,14 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         this.password = findViewById(R.id.etPassowordRegister);
         this.password2 = findViewById(R.id.etPassowrdRegister2);
         this.submit = findViewById(R.id.btnRegisterRegister);
-        this.submit.setOnClickListener(this::onClickSubmit);
+
+        // For test
+        this.name.setText("Will");
+        this.ced.setText("1721181210");
+        this.code.setText("123456");
+        this.username.setText("will");
+        this.password.setText("will123.");
+        this.password2.setText("will123.");
     }
 
     @Override
@@ -95,9 +121,24 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onValidationSucceeded() {
-        //TODO: Register user
+        String name = this.name.getText().toString();
+        String ced = this.ced.getText().toString();
+        String code = this.code.getText().toString();
+        String user = this.username.getText().toString();
+        String pass = this.password.getText().toString();
+
+        User newUser = new User(name,ced, code, user, pass );
+        try {
+            this.userRepo.addNew(newUser);
+            Toast.makeText(this, "Te haz registrado!", Toast.LENGTH_LONG).show();
+            finish();
+        } catch (IOException ex){
+            System.err.println(ex);
+            Toast.makeText(this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

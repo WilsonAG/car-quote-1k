@@ -1,6 +1,9 @@
-package com.will.carquote1k.model;
+package com.will.carquote1k.models;
+
+import androidx.annotation.NonNull;
 
 public class User {
+
     private String name;
     private String id;
     private String code;
@@ -61,14 +64,15 @@ public class User {
         this.password = password;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", code='" + code + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "name='" + getName() + '\'' +
+                ", id='" + getId() + '\'' +
+                ", code='" + getCode() + '\'' +
+                ", username='" + getUsername() + '\'' +
+                ", password='" + getPassword() + '\'' +
                 '}';
     }
 }
