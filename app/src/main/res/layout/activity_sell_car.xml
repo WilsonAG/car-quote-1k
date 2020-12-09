@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SellCarActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/dashboard_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dashboard_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/primaryColor"
+            android:padding="5sp"
+            android:text="@string/sell_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="173dp"
+            tools:layout_editor_absoluteY="18dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="416dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/tv_sell_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="@string/sell_option_text" />
+
+            <Spinner
+                android:id="@+id/sp_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_sell_options" />
+
+            <EditText
+                android:id="@+id/et_car_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sp_options"
+                android:inputType="number"
+                android:layout_marginTop="16dp"
+                android:hint="@string/car_code"
+                android:importantForAutofill="no" />
+
+            <EditText
+                android:id="@+id/et_car_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_code"
+                android:inputType="text"
+                android:layout_marginTop="16dp"
+                android:hint="@string/car_brand"
+                android:importantForAutofill="no" />
+
+            <EditText
+                android:id="@+id/et_car_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_brand"
+                android:layout_marginTop="16dp"
+                android:inputType="text"
+                android:hint="@string/car_model"
+                android:importantForAutofill="no" />
+
+            <EditText
+                android:id="@+id/et_car_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_model"
+                android:layout_marginTop="16dp"
+                android:inputType="number"
+                android:hint="@string/car_year"
+                android:importantForAutofill="no" />
+
+            <EditText
+                android:id="@+id/et_car_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_year"
+                android:layout_marginTop="16dp"
+                android:inputType="numberDecimal"
+                android:hint="@string/car_price"
+                android:importantForAutofill="no" />
+
+            <EditText
+                android:id="@+id/et_car_cylinder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_price"
+                android:layout_marginTop="16dp"
+                android:hint="@string/car_cylinder"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/et_car_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_cylinder"
+                android:inputType="text"
+                android:layout_marginTop="16dp"
+                android:hint="@string/car_country"
+                android:importantForAutofill="no" />
+
+            <TextView
+                android:id="@+id/tv_new_car"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_country"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="16dp"
+                android:text="@string/car_new"
+                android:layout_alignParentStart="true" />
+
+            <CheckBox
+                android:id="@+id/chk_new_car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_country"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/tv_new_car"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="24dp"
+                android:layout_toEndOf="@id/tv_new_car" />
+
+            <EditText
+                android:id="@+id/et_car_km"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_new_car"
+                android:layout_marginTop="16dp"
+                android:inputType="number"
+                android:hint="@string/car_km"
+                android:importantForAutofill="no" />
+
+
+            <TextView
+                android:id="@+id/tv_owner"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_km"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="16dp"
+                android:text="@string/car_owner"
+                android:layout_alignParentStart="true" />
+
+            <CheckBox
+                android:id="@+id/chk_car_owner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_car_km"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/tv_owner"
+                android:layout_toEndOf="@id/tv_owner"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="24dp" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_owner"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="32dp"
+                android:text="@string/car_button" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

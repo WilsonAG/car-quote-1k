@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.will.carquote1k.R;
@@ -22,8 +23,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText user;
     private EditText password;
     private UserRepository userRepo;
+    private SharedPreferences settings;
+    private boolean loggedIn;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +39,24 @@ public class LoginActivity extends AppCompatActivity {
         Button submit = findViewById(R.id.btnLogin);
         Button register = findViewById(R.id.btnRegister);
 
+        String[] files = fileList();
+        String path = this.getFilesDir().getPath().toString();
+        try {
+            this.userRepo = new UserRepository(path, files);
+        } catch (IOException e) {
+            Toast.makeText(this, "Error al leer archivo", Toast.LENGTH_SHORT).show();
+        }
+
         submit.setOnClickListener(this::redirectToDashboard);
         register.setOnClickListener(this::redirectToRegister);
 
         // Lunch first time
-        SharedPreferences settings = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+        this.settings = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
         boolean isFirstTime = settings.getBoolean("alreadyStarted", true);
+        this.loggedIn = settings.getBoolean("isLoggedIn", false);
+
+        // Comment the below line to enable auto-loggin
+//        this.loggedIn = false;
 
         if (isFirstTime) {
             // Nav To register
@@ -52,15 +68,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(registerPage);
         }
 
-        String[] files = fileList();
-        String path = this.getFilesDir().getPath().toString();
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                this.userRepo = new UserRepository(path, files);
-            }
-        } catch (IOException e) {
-            Toast.makeText(this, "Error al leer archivo", Toast.LENGTH_SHORT).show();
+        if (loggedIn) {
+            this.redirectToDashboard();
         }
+
+
     }
 
     private void redirectToRegister(View v) {
@@ -69,20 +81,37 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void redirectToDashboard(View v) {
-        // TODO: Redirect when login success
-        String user = this.user.getText().toString();
-        String password = this.password.getText().toString();
-        boolean authorized = this.userRepo.isAuth(user, password);
+        this.redirectToDashboard();
+    }
 
+    private void redirectToDashboard() {
+        String user;
+        String password;
+        if (!this.loggedIn) {
+            user = this.user.getText().toString();
+            password = this.password.getText().toString();
+        } else {
+            user = this.settings.getString("user", "no hay");
+            password = this.settings.getString("pass", "no hay");
+        }
+
+        System.out.println(user);
+        System.out.println(password);
+
+        boolean authorized = this.userRepo.isAuth(user, password);
         if (!authorized) {
             Toast.makeText(this, "Credenciales no validas", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Toast.makeText(this, "Redirect to dashboard", Toast.LENGTH_SHORT).show();
+        SharedPreferences.Editor editor = this.settings.edit();
+        editor.putString("user", user);
+        editor.putString("pass", password);
+        editor.putBoolean("isLoggedIn", true);
+        editor.apply();
 
-//        Intent next = new Intent(this, ??);
-//        startActivity(next);
-
+        Intent next = new Intent(this, DashboardActivity.class);
+        next.putExtra("user", user);
+        startActivity(next);
     }
 }

@@ -10,6 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CarQuote1K">
+        <activity android:name=".activities.BuyCarActivity"></activity>
+        <activity android:name=".activities.SellCarActivity" />
+        <activity android:name=".activities.DashboardActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
