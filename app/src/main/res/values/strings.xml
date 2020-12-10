@@ -46,4 +46,6 @@
     <string name="car_owner">¿Dueño unico?</string>
     <string name="car_button">Guardar</string>
 
+    <string name="quoter_title">Cotizador</string>
+
 </resources>

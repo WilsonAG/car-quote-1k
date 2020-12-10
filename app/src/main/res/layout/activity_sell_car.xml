@@ -56,6 +56,7 @@
             <Spinner
                 android:id="@+id/sp_options"
                 android:layout_width="match_parent"
+                android:entries="@array/sell_options"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_sell_options" />
 

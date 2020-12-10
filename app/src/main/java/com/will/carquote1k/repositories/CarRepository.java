@@ -32,18 +32,73 @@ public class CarRepository {
         if (this.haveCars(files)) {
             byte[] bytes = Files.readAllBytes(filepath);
             String jsonContent = new String(bytes);
-            System.out.println(jsonContent);
+//            System.out.println(jsonContent);
             Car[] loadedCars = gson.fromJson(jsonContent, Car[].class);
             for (Car c : loadedCars) {
                 this.cars.add(c);
             }
         } else {
             // Create file and init array
-            System.out.println("Voy a crear un archivo");
+//            System.out.println("Voy a crear un archivo");
             String json = gson.toJson(this.cars);
             Files.write(filepath, json.getBytes());
         }
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void add(Car c) throws IOException {
+        this.cars.add(c);
+        this.saveFile();
+    }
+
+    public Car find(String code) {
+        for (Car c :
+                this.cars) {
+            if (code.equals(c.getCode())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public boolean updateCar(String code, Car c) throws IOException {
+        Car car = this.find(code);
+        if (car == null) {
+            return false ;
+        }
+
+        int idx = this.cars.indexOf(car);
+        this.cars.get(idx).update(c);
+        this.saveFile();
+
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public boolean deleteCar(String code) throws IOException {
+        Car car = this.find(code);
+        if (car == null) {
+            return false ;
+        }
+        int idx = this.cars.indexOf(car);
+        this.cars.remove(idx);
+        this.saveFile();
+
+        System.out.println(this.cars);
+
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void saveFile() throws IOException {
+        Gson gson = new Gson();
+        Path path = Paths.get(this.fullpath);
+        String usersJson = gson.toJson(this.cars);
+        Files.write(path, usersJson.getBytes());
+    }
+
     private boolean haveCars(String[] files) {
         for (String filename : files) {
             if (filename.equals(CarRepository.FILE)) {
