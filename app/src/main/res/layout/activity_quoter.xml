@@ -31,5 +31,96 @@
             tools:layout_editor_absoluteY="18dp" />
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="416dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_toolbar">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dashboard_toolbar">
+
+            <TextView
+                android:id="@+id/tv_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:text="Valor de la entrada"/>
+
+            <EditText
+                android:id="@+id/et_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_entry"
+                android:inputType="numberDecimal"
+                android:hint="Entrada mayor al 10% del precio"/>
+
+            <TextView
+                android:id="@+id/tv_quote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_below="@id/et_entry"/>
+
+            <Spinner
+                android:id="@+id/sp_quotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_quote"/>
+
+            <Button
+                android:id="@+id/btn_quoter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_below="@id/sp_quotes"
+                android:layout_marginHorizontal="24dp"
+                android:text="Cotizar"/>
+
+            <TextView
+                android:id="@+id/tv_text_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="48dp"
+                android:layout_below="@id/btn_quoter"
+                android:text="El valor a pagar es:"/>
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_text_price"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="$$"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_total_price"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="12 cutoas de $$$" />
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

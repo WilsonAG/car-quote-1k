@@ -2,6 +2,7 @@ package com.will.carquote1k.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -23,10 +24,29 @@ public class Car implements Serializable {
     public int milage;
     public boolean uniqueOwner;
 
+    @Ignore
+    public int ownerQuantity;
+
+    @Ignore
+    public boolean haveCrashes;
+
+    @Ignore
+    public boolean haveAir;
+
+    @Ignore
+    public String tapiz;
+
+    @Ignore
+    public String painting;
+
+    @Ignore
+    public String body;
+
     @NonNull
     public String getCode() {
         return code;
     }
+
 
     public void setCode(@NonNull String code) {
         this.code = code;
@@ -84,8 +104,8 @@ public class Car implements Serializable {
         return isNew;
     }
 
-    public void setIsNew(boolean isNew) {
-        this.isNew = isNew;
+    public void setNew(boolean aNew) {
+        isNew = aNew;
     }
 
     public int getMilage() {
@@ -104,6 +124,54 @@ public class Car implements Serializable {
         this.uniqueOwner = uniqueOwner;
     }
 
+    public int getOwnerQuantity() {
+        return ownerQuantity;
+    }
+
+    public void setOwnerQuantity(int ownerQuantity) {
+        this.ownerQuantity = ownerQuantity;
+    }
+
+    public boolean isHaveCrashes() {
+        return haveCrashes;
+    }
+
+    public void setHaveCrashes(boolean haveCrashes) {
+        this.haveCrashes = haveCrashes;
+    }
+
+    public boolean isHaveAir() {
+        return haveAir;
+    }
+
+    public void setHaveAir(boolean haveAir) {
+        this.haveAir = haveAir;
+    }
+
+    public String getTapiz() {
+        return tapiz;
+    }
+
+    public void setTapiz(String tapiz) {
+        this.tapiz = tapiz;
+    }
+
+    public String getPainting() {
+        return painting;
+    }
+
+    public void setPainting(String painting) {
+        this.painting = painting;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -114,9 +182,15 @@ public class Car implements Serializable {
                 ", price=" + price +
                 ", cylinder=" + cylinder +
                 ", country='" + country + '\'' +
-                ", isNew='" + isNew + '\'' +
+                ", isNew=" + isNew +
                 ", milage=" + milage +
-                ", uniqueOwner='" + uniqueOwner + '\'' +
+                ", uniqueOwner=" + uniqueOwner +
+                ", ownerQuantity=" + ownerQuantity +
+                ", haveCrashes=" + haveCrashes +
+                ", haveAir=" + haveAir +
+                ", tapiz='" + tapiz + '\'' +
+                ", painting='" + painting + '\'' +
+                ", body='" + body + '\'' +
                 '}';
     }
 }

@@ -31,4 +31,229 @@
             tools:layout_editor_absoluteY="18dp" />
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="416dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/tv_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="16dp"
+                android:text="Marca"/>
+
+            <EditText
+                android:id="@+id/et_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_brand"
+                android:hint="Ingrese la marca"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/tv_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_brand"
+                android:layout_marginTop="16dp"
+                android:text="Modelo"/>
+
+            <EditText
+                android:id="@+id/et_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_model"
+                android:hint="Ingrese el modelo"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/tv_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_model"
+                android:layout_marginTop="16dp"
+                android:text="Año"/>
+
+            <EditText
+                android:id="@+id/et_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese el año"
+                android:layout_below="@id/tv_year"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/tv_milage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_year"
+                android:layout_marginTop="16dp"
+                android:text="Kilometraje"/>
+
+            <EditText
+                android:id="@+id/et_milage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_milage"
+                android:hint="Ingrese el kilometraje"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/tv_sell_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Valor de Venta"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/et_milage" />
+
+            <EditText
+                android:id="@+id/et_sell_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese el valor de venta"
+                android:layout_below="@id/tv_sell_price"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/tv_owner_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Número de dueños"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/et_sell_price" />
+
+            <EditText
+                android:id="@+id/et_owner_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese la cantidad de dueños"
+                android:layout_below="@id/tv_owner_quantity"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/tv_crashes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Tiene choques?"
+                android:layout_marginTop="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/et_owner_quantity" />
+
+            <CheckBox
+                android:id="@+id/chk_crashes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_owner_quantity"
+                android:layout_alignParentRight="true"
+                android:layout_marginHorizontal="8dp"
+                android:layout_toRightOf="@id/tv_crashes" />
+
+            <TextView
+                android:id="@+id/tv_air"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Tiene aire acondicionado?"
+                android:layout_marginTop="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/tv_crashes" />
+
+            <CheckBox
+                android:id="@+id/chk_air"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/tv_air"
+                android:layout_marginHorizontal="8dp"
+                android:layout_below="@id/tv_crashes" />
+
+            <TextView
+                android:id="@+id/tv_tapiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tapiceria"
+                android:layout_marginTop="24dp"
+                android:layout_below="@id/tv_air" />
+
+            <Spinner
+                android:id="@+id/sp_tapiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_tapiz" />
+
+            <TextView
+                android:id="@+id/tv_painting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pintura"
+                android:layout_marginTop="24dp"
+                android:layout_below="@id/sp_tapiz" />
+
+            <Spinner
+                android:id="@+id/sp_painting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_painting" />
+
+            <TextView
+                android:id="@+id/tv_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Carroceria"
+                android:layout_marginTop="24dp"
+                android:layout_below="@id/sp_painting" />
+
+            <Spinner
+                android:id="@+id/sp_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_body" />
+
+            <Button
+                android:id="@+id/btn_eval_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:layout_below="@id/sp_body"
+                android:text="Calcular valor de compra"/>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tv_text_buy_price"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_eval_price"
+                android:layout_marginTop="8dp"
+                android:text="El precio total de compra es:"/>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tv_total_buy_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_text_buy_price"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="$$"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         this.password = findViewById(R.id.etPassword);
 
 //        Test
-        this.user.setText("will");
-        this.password.setText("will123.");
+//        this.user.setText("will");
+//        this.password.setText("will123.");
 
         Button submit = findViewById(R.id.btnLogin);
         Button register = findViewById(R.id.btnRegister);

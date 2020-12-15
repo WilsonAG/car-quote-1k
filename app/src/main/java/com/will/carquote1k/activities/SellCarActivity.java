@@ -89,7 +89,7 @@ public class SellCarActivity extends AppCompatActivity {
         }
 
         Intent quoter = new Intent(this, QuoterActivity.class);
-        quoter.putExtra("price", this.getCar());
+        quoter.putExtra("car", this.getCar());
         startActivity(quoter);
     }
 
@@ -224,7 +224,7 @@ public class SellCarActivity extends AppCompatActivity {
         car.setCylinder(Integer.parseInt(cylinder));
         car.setCountry(country);
         car.setMilage(Integer.parseInt(milage));
-        car.setIsNew(isNew);
+        car.setNew(isNew);
         car.setUniqueOwner(uniqueOwner);
 
         return car;
