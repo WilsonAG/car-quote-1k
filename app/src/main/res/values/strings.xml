@@ -44,7 +44,11 @@
     <string name="car_new">¿Es nuevo?</string>
     <string name="car_km">Kilometraje</string>
     <string name="car_owner">¿Dueño unico?</string>
-    <string name="car_button">Guardar</string>
+    <string name="car_btn_register">Registrar</string>
+    <string name="car_btn_find">Buscar</string>
+    <string name="car_btn_update">Actualizar</string>
+    <string name="car_btn_delete">Eliminar</string>
+    <string name="car_btn_quoter">Cotizar</string>
 
     <string name="quoter_title">Cotizador</string>
 

@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,14 +14,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.will.carquote1k.R;
-import com.will.carquote1k.models.Car;
-import com.will.carquote1k.repositories.CarRepository;
+import com.will.carquote1k.database.entity.Car;
+import com.will.carquote1k.repository.CarRepository;
 
-import java.io.IOException;
+public class SellCarActivity extends AppCompatActivity {
+    private Button btnRegister;
+    private Button btnFind;
+    private Button btnUpdate;
+    private Button btnDelete;
+    private Button btnQuoter;
 
-public class SellCarActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private Button saveChanges;
-    private CarRepository cr;
     private Spinner options;
 
     private EditText code;
@@ -37,11 +37,14 @@ public class SellCarActivity extends AppCompatActivity implements AdapterView.On
     private EditText milage;
     private CheckBox isUniqueOwner;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    private CarRepository carRepo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_car);
+
+        this.carRepo = new CarRepository(this.getApplicationContext());
 
         this.code = findViewById(R.id.et_car_code);
         this.brand = findViewById(R.id.et_car_brand);
@@ -63,129 +66,125 @@ public class SellCarActivity extends AppCompatActivity implements AdapterView.On
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Spinner settings
-        this.options = findViewById(R.id.sp_options);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sell_options, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        options.setAdapter(adapter);
-        options.setOnItemSelectedListener(this);
 
         //Save button
-        this.saveChanges = findViewById(R.id.btn_save);
-        saveChanges.setOnClickListener(this::onSubmit);
+        this.btnRegister = findViewById(R.id.btn_register);
+        this.btnFind = findViewById(R.id.btn_find);
+        this.btnUpdate = findViewById(R.id.btn_update);
+        this.btnDelete = findViewById(R.id.btn_delete);
+        this.btnQuoter = findViewById(R.id.btn_quoter);
 
-        String path = this.getFilesDir().toString();
-        String[] files = fileList();
-        try {
-            this.cr = new CarRepository(path, files);
-        } catch (IOException e) {
-            Toast.makeText(this, "Error al leer los datos", Toast.LENGTH_SHORT).show();
-//            e.printStackTrace();
-        }
+        this.btnRegister.setOnClickListener(this::register);
+        this.btnFind.setOnClickListener(this::find);
+        this.btnUpdate.setOnClickListener(this::update);
+        this.btnDelete.setOnClickListener(this::delete);
+        this.btnQuoter.setOnClickListener(this::quoter);
 
-        Toast.makeText(this,
-                "Para consula, eliminacion o actualizar datos use el codigo del automovil",
-                Toast.LENGTH_LONG).show();
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void onSubmit(View v) {
-        if (!this.validate()) {
+    private void quoter(View v) {
+        if (!this.validateAll()) {
             Toast.makeText(this, "Complete los campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        switch (this.options.getSelectedItem().toString()) {
-            case "Registrar":
-                Car newCar = new Car(
-                        this.code.getText().toString(),
-                        this.brand.getText().toString(),
-                        this.model.getText().toString(),
-                        Integer.parseInt(this.year.getText().toString()),
-                        Integer.parseInt(this.cylinder.getText().toString()),
-                        this.country.getText().toString(),
-                        Double.parseDouble(this.price.getText().toString()),
-                        this.isNew.isChecked(),
-                        Integer.parseInt(this.milage.getText().toString()),
-                        this.isUniqueOwner.isChecked()
-                );
-                try {
-                    this.cr.add(newCar);
-                    Toast.makeText(this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    Toast.makeText(this, "Error al registrar nuevo automovil", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                break;
-
-            case "Consultar":
-                String code = this.code.getText().toString();
-                Car searchedCar = cr.find(code);
-                if (searchedCar == null) {
-                    Toast.makeText(this, "El automovil con ese codigo no existe", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-//                System.out.println(searchedCar);
-
-                this.code.setText(searchedCar.getCode());
-                this.brand.setText(searchedCar.getBrand());
-                this.model.setText(searchedCar.getModel());
-                this.year.setText(String.valueOf(searchedCar.getYear()));
-                this.price.setText(String.valueOf(searchedCar.getPrice()));
-                this.country.setText(searchedCar.getCountry());
-                this.cylinder.setText(String.valueOf(searchedCar.getCylinder()));
-                this.isNew.setChecked(searchedCar.isNew());
-                this.milage.setText(String.valueOf(searchedCar.getMilage()));
-                this.isUniqueOwner.setChecked(searchedCar.isSingleOwner());
-                break;
-
-            case "Actualizar":
-                Car updated = new Car(
-                        this.code.getText().toString(),
-                        this.brand.getText().toString(),
-                        this.model.getText().toString(),
-                        Integer.parseInt(this.year.getText().toString()),
-                        Integer.parseInt(this.cylinder.getText().toString()),
-                        this.country.getText().toString(),
-                        Double.parseDouble(this.price.getText().toString()),
-                        this.isNew.isChecked(),
-                        Integer.parseInt(this.milage.getText().toString()),
-                        this.isUniqueOwner.isChecked()
-                );
-
-                try {
-                    boolean status = this.cr.updateCar(updated.getCode(), updated);
-                    if (status) {
-                        Toast.makeText(this, "Automovil actualizado", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "El codigo no es válido", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e) {
-                    Toast.makeText(this, "Error al guardar cambios", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                break;
-
-            case "Eliminar":
-                String carCode = this.code.getText().toString();
-                try {
-                    boolean status = this.cr.deleteCar(carCode);
-                    if (status) {
-                        Toast.makeText(this, "Automovil Eliminado", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "El codigo no es válido", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e) {
-                    Toast.makeText(this, "Error al guardar cambios", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                break;
-        }
+        Intent quoter = new Intent(this, QuoterActivity.class);
+        quoter.putExtra("price", this.getCar());
+        startActivity(quoter);
     }
 
-    private boolean validate() {
+    private void find(View v) {
+        String code = this.code.getText().toString().trim();
+        if (code.isEmpty()) {
+            Toast.makeText(this, "El codigo es obligatorio", Toast.LENGTH_SHORT).show();
+            this.code.setError("Completa este campo");
+            return;
+        }
+
+        Car car = this.carRepo.find(code);
+        if (car == null) {
+            Toast.makeText(this, "El codigo no es válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        this.code.setText(car.getCode());
+        this.brand.setText(car.getBrand());
+        this.model.setText(car.getModel());
+        this.year.setText(String.valueOf(car.getYear()));
+        this.price.setText(String.valueOf(car.getPrice()));
+        this.cylinder.setText(String.valueOf(car.getCylinder()));
+        this.country.setText(car.getCountry());
+        this.isNew.setChecked(car.isNew);
+        this.milage.setText(String.valueOf(car.getMilage()));
+        this.isUniqueOwner.setChecked(car.isUniqueOwner());
+    }
+
+    private void update(View v) {
+        if (!this.validateAll()) {
+            Toast.makeText(this, "Complete los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Car car = this.carRepo.find(this.getCar().getCode());
+        if (car == null) {
+            Toast.makeText(this, "El codigo no es válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            this.carRepo.update(this.getCar());
+        }catch (Exception ex) {
+            Toast.makeText(this, "Error al actualizar los datos .", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        Toast.makeText(this, "Vehiculo actualizado.", Toast.LENGTH_SHORT).show();
+        this.clean();
+    }
+
+    private void delete(View v) {
+        if (!this.validateAll()) {
+            Toast.makeText(this, "Complete los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Car car = this.carRepo.find(this.getCar().getCode());
+        if (car == null) {
+            Toast.makeText(this, "El codigo no es válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            this.carRepo.delete(this.getCar());
+        }catch (Exception ex) {
+            Toast.makeText(this, "Error al eliminar el vehiculo .", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        Toast.makeText(this, "Vehiculo eliminado.", Toast.LENGTH_SHORT).show();
+        this.clean();
+    }
+
+    private void register(View v) {
+        if (!this.validateAll()) {
+            Toast.makeText(this, "Complete los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Car car = this.getCar();
+
+        try {
+            this.carRepo.add(car);
+        }catch (Exception ex) {
+            Toast.makeText(this, "Error al guardar, verifique el codigo.", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        Toast.makeText(this, "Vehiculo registrado.", Toast.LENGTH_SHORT).show();
+        this.clean();
+    }
+
+    private boolean validateAll() {
         String code = this.code.getText().toString();
         String brand = this.brand.getText().toString();
         String model = this.model.getText().toString();
@@ -195,11 +194,6 @@ public class SellCarActivity extends AppCompatActivity implements AdapterView.On
         String coutnry = this.country.getText().toString();
         String milage = this.milage.getText().toString();
 
-        if ((this.options.getSelectedItem().toString().equals("Consultar") || this.options.getSelectedItem().toString().equals("Eliminar"))
-                && !code.trim().isEmpty()) {
-            System.out.println("query o delete con code vacio");
-            return true;
-        }
 
         if (code.trim().isEmpty() || brand.trim().isEmpty() || model.trim().isEmpty() || price.isEmpty() || year.trim().isEmpty() || cylinder.trim().isEmpty() || coutnry.trim().isEmpty() || milage.trim().isEmpty()) {
             return false;
@@ -208,35 +202,50 @@ public class SellCarActivity extends AppCompatActivity implements AdapterView.On
         return true;
     }
 
+    private Car getCar(){
+        String code = this.code.getText().toString();
+        String brand = this.brand.getText().toString();
+        String model = this.model.getText().toString();
+        String year = this.year.getText().toString();
+        String price = this.price.getText().toString();
+        String cylinder = this.cylinder.getText().toString();
+        String country = this.country.getText().toString();
+        String milage = this.milage.getText().toString();
+        boolean uniqueOwner = this.isUniqueOwner.isChecked();
+        boolean isNew = this.isNew.isChecked();
+
+        Car car = new Car();
+
+        car.setCode(code);
+        car.setBrand(brand);
+        car.setModel(model);
+        car.setYear(Integer.parseInt(year));
+        car.setPrice(Double.parseDouble(price));
+        car.setCylinder(Integer.parseInt(cylinder));
+        car.setCountry(country);
+        car.setMilage(Integer.parseInt(milage));
+        car.setIsNew(isNew);
+        car.setUniqueOwner(uniqueOwner);
+
+        return car;
+    }
+
+    private void clean() {
+        this.code.setText("");
+        this.brand.setText("");
+        this.model.setText("");
+        this.year.setText("");
+        this.price.setText("");
+        this.cylinder.setText("");
+        this.country.setText("");
+        this.milage.setText("");
+        this.isUniqueOwner.setChecked(false);
+        this.isNew.setChecked(false);
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
         this.finish();
         return true;
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selected = parent.getItemAtPosition(position).toString();
-
-        if (!selected.equals("Cotizar")){
-            return;
-        }
-
-        if(this.validate()) {
-            Intent quoter = new Intent(this, QuoterActivity.class);
-            quoter.putExtra("price", Double.parseDouble(this.price.getText().toString()));
-            quoter.putExtra("year", Integer.parseInt(this.year.getText().toString()));
-
-            startActivity(quoter);
-        } else {
-            Toast.makeText(this, "Complete los campos", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

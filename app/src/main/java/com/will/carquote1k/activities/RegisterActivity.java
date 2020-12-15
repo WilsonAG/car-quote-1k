@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -18,10 +19,9 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.will.carquote1k.R;
-import com.will.carquote1k.models.User;
-import com.will.carquote1k.repositories.UserRepository;
+import com.will.carquote1k.database.entity.User;
+import com.will.carquote1k.repository.UserRepository;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.will.carquote1k.R.string.error_ced;
@@ -53,8 +53,8 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
 
     private Validator registerValidator;
     private Button submit;
+    private UserRepository usersRepo;
 
-    private UserRepository userRepo;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -64,6 +64,12 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         setContentView(R.layout.activity_register);
 
         this.initView();
+
+        // Users DB
+        this.usersRepo = new UserRepository(this.getApplicationContext());
+        List<User> users = this.usersRepo.getUsers();
+        System.out.println(users.isEmpty());
+
 
         // Toolbar settings
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -78,17 +84,6 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
 
         this.registerValidator = new Validator(this);
         registerValidator.setValidationListener(this);
-
-        String[] files = fileList();
-        String path = this.getFilesDir().getPath().toString();
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                this.userRepo = new UserRepository(path, files);
-            }
-        } catch (IOException e) {
-            Toast.makeText(this, "Error al leer archivo", Toast.LENGTH_SHORT).show();
-        }
-
 
     }
 
@@ -121,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onValidationSucceeded() {
         String name = this.name.getText().toString();
@@ -130,15 +124,22 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         String user = this.username.getText().toString();
         String pass = this.password.getText().toString();
 
-        User newUser = new User(name,ced, code, user, pass );
         try {
-            this.userRepo.addNew(newUser);
-            Toast.makeText(this, "Te haz registrado!", Toast.LENGTH_LONG).show();
-            finish();
-        } catch (IOException ex){
-            System.err.println(ex);
-            Toast.makeText(this, "Error al crear usuario", Toast.LENGTH_SHORT).show();
+            User newUser = new User();
+            newUser.setName(name);
+            newUser.setId(ced);
+            newUser.setCode(code);
+            newUser.setUsername(user);
+            newUser.setPassword(pass);
+
+            this.usersRepo.register(newUser);
+        } catch (Exception ex) {
+            Toast.makeText(this, "Error al registar, verifique su cedula", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(this, "Registro completado", Toast.LENGTH_SHORT).show();
     }
 
     @Override

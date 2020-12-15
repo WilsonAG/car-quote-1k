@@ -46,29 +46,15 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <TextView
-                android:id="@+id/tv_sell_options"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:text="@string/sell_option_text" />
-
-            <Spinner
-                android:id="@+id/sp_options"
-                android:layout_width="match_parent"
-                android:entries="@array/sell_options"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_sell_options" />
-
             <EditText
                 android:id="@+id/et_car_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sp_options"
-                android:inputType="number"
+                android:layout_alignParentTop="true"
                 android:layout_marginTop="16dp"
                 android:hint="@string/car_code"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/et_car_brand"
@@ -118,7 +104,7 @@
                 android:layout_marginTop="16dp"
                 android:hint="@string/car_cylinder"
                 android:importantForAutofill="no"
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/et_car_country"
@@ -190,13 +176,54 @@
                 android:layout_marginStart="24dp" />
 
             <Button
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_owner"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="32dp"
-                android:text="@string/car_button" />
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/car_btn_register" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_find"
+                android:layout_below="@id/btn_register"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/car_btn_find" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_update"
+                android:layout_below="@id/btn_find"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="48dp"
+                android:text="@string/car_btn_update" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_delete"
+                android:layout_below="@id/btn_update"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="48dp"
+                android:text="@string/car_btn_delete" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_quoter"
+                android:layout_below="@id/btn_delete"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="48dp"
+                android:text="@string/car_btn_quoter" />
 
 
         </RelativeLayout>
